@@ -4,10 +4,10 @@ import 'package:cuan/blocs/transaction/transaction_bloc.dart';
 import 'package:cuan/blocs/user/user_bloc.dart';
 import 'package:cuan/models/transfer_model.dart';
 import 'package:cuan/service/custom_width_height.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/helper.dart';
 import 'package:cuan/shared/theme.dart';
-import 'package:cuan/ui/pages/amount/amount_transfer_page.dart';
+import 'package:cuan/ui/pages/transfer/transfer_amount_page.dart';
 import 'package:cuan/ui/widgets/home_items.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -320,7 +320,7 @@ class OverviewScreen extends StatelessWidget {
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (context) => AmountTransferPage(
+                                      builder: (context) => TransferAmountPage(
                                         data: TransferModel(
                                           sendTo: data.username,
                                         ),

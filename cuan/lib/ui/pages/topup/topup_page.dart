@@ -3,9 +3,9 @@ import 'package:cuan/blocs/payment/payment_bloc.dart';
 import 'package:cuan/models/payment_model.dart';
 import 'package:cuan/models/topup_model.dart';
 import 'package:cuan/service/custom_width_height.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/theme.dart';
-import 'package:cuan/ui/pages/amount/amount_topup_page.dart';
+import 'package:cuan/ui/pages/topup/topup_amount_page.dart';
 import 'package:cuan/ui/widgets/bank_items.dart';
 import 'package:cuan/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
@@ -134,7 +134,7 @@ class _TopupPageState extends State<TopupPage> {
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
-                                        builder: (context) => AmountTopupPage(
+                                        builder: (context) => TopupAmountPage(
                                                 data: TopUpModel(
                                               paymentMethodCode: selectPayment?.code,
                                               pin: state.data.pin,

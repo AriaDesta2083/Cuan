@@ -1,6 +1,6 @@
 import 'package:cuan/blocs/transaction/transaction_bloc.dart';
 import 'package:cuan/models/transaction_model.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/helper.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:cuan/ui/widgets/dialog.dart';
@@ -89,6 +89,9 @@ class HistoryScreen extends StatelessWidget {
                         child: HomeLatestTransactionItem(data: data));
                   }).toList(),
                 )),
+                const SizedBox(
+                  height: 30,
+                )
           ],
         ),
       ),

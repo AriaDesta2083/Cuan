@@ -1,6 +1,6 @@
 import 'package:cuan/models/user_model.dart';
 import 'package:cuan/service/custom_width_height.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';

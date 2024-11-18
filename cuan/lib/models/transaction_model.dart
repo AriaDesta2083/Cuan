@@ -13,8 +13,7 @@ class TransactionModel {
     this.transactionType,
   });
 
-  factory TransactionModel.fromJson(Map<String, dynamic> json) =>
-      TransactionModel(
+  factory TransactionModel.fromJson(Map<String, dynamic> json) => TransactionModel(
         id: json['id'],
         amount: json['amount'],
         desc: json['description'],
@@ -42,8 +41,7 @@ class TransactionTypeModel {
     this.thumbnail,
   });
 
-  factory TransactionTypeModel.fromJson(Map<String, dynamic> json) =>
-      TransactionTypeModel(
+  factory TransactionTypeModel.fromJson(Map<String, dynamic> json) => TransactionTypeModel(
         id: json['id'],
         name: json['name'],
         code: json['code'],

@@ -1,14 +1,12 @@
 import 'package:cuan/blocs/auth/auth_bloc.dart';
-import 'package:cuan/models/user_model.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:cuan/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class TopupSuccessPage extends StatelessWidget {
-  final UserModel user;
-  const TopupSuccessPage({super.key, required this.user});
+  const TopupSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +50,7 @@ class TopupSuccessPage extends StatelessWidget {
                     title: 'Back to Home',
                     width: 230,
                     onTaps: () {
-                      context.read<AuthBloc>().add(AuthBalance(user));
+                      context.read<AuthBloc>().add(AuthGetCurrent());
                     },
                   );
                 },

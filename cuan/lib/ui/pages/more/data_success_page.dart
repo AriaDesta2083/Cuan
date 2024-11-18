@@ -1,9 +1,11 @@
+import 'package:cuan/blocs/auth/auth_bloc.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:cuan/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DataPackageSuccessPage extends StatelessWidget {
-  const DataPackageSuccessPage({super.key});
+class DataPlansSuccessPage extends StatelessWidget {
+  const DataPlansSuccessPage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -29,11 +31,25 @@ class DataPackageSuccessPage extends StatelessWidget {
               const SizedBox(
                 height: 50,
               ),
-              CustomFilledButton(
-                title: 'Back to Home',
-                width: 230,
-                onTaps: () {
-                  Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+              BlocConsumer<AuthBloc, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthSuccess) {
+                    Navigator.pushNamedAndRemoveUntil(context, '/home', (route) => false);
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AuthLoading) {
+                    return CircularProgressIndicator(
+                      color: orangeColor,
+                    );
+                  }
+                  return CustomFilledButton(
+                    title: 'Back to Home',
+                    width: 230,
+                    onTaps: () {
+                      context.read<AuthBloc>().add(AuthGetCurrent());
+                    },
+                  );
                 },
               )
             ],

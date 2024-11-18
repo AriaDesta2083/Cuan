@@ -1,6 +1,6 @@
 import 'package:cuan/blocs/auth/auth_bloc.dart';
 import 'package:cuan/models/signin_form_model.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/helper.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:cuan/ui/widgets/buttons.dart';

@@ -1,28 +1,24 @@
-import 'package:cuan/blocs/auth/auth_bloc.dart';
-import 'package:cuan/blocs/transfer/transfer_bloc.dart';
-import 'package:cuan/models/transfer_model.dart';
-import 'package:cuan/models/user_model.dart';
+import 'package:cuan/blocs/topup/topup_bloc.dart';
+import 'package:cuan/models/topup_model.dart';
 import 'package:cuan/service/custom_width_height.dart';
 import 'package:cuan/shared/helper.dart';
 import 'package:cuan/shared/theme.dart';
-import 'package:cuan/ui/pages/transfer/transfer_success_page.dart';
+import 'package:cuan/ui/pages/topup/topup_webview_page.dart';
 import 'package:cuan/ui/widgets/buttons.dart';
 import 'package:cuan/ui/widgets/dialog.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 
-class AmountTransferPage extends StatefulWidget {
-  final TransferModel data;
-  const AmountTransferPage({super.key, required this.data});
+class TopupAmountPage extends StatefulWidget {
+  final TopUpModel data;
+  const TopupAmountPage({super.key, required this.data});
   @override
-  State<AmountTransferPage> createState() => _AmountTransferPageState();
+  State<TopupAmountPage> createState() => _TopupAmountPageState();
 }
 
-class _AmountTransferPageState extends State<AmountTransferPage> {
+class _TopupAmountPageState extends State<TopupAmountPage> {
   final TextEditingController numTec = TextEditingController(text: '0');
-  UserModel? user;
 
   addNum(String num) {
     if (numTec.text == '0') {
@@ -44,10 +40,6 @@ class _AmountTransferPageState extends State<AmountTransferPage> {
   @override
   void initState() {
     super.initState();
-    final authState = context.read<AuthBloc>().state;
-    if (authState is AuthSuccess) {
-      user = authState.data;
-    }
     numTec.addListener(() {
       if (numTec.text == '') {
         numTec.text = '0';
@@ -191,19 +183,16 @@ class _AmountTransferPageState extends State<AmountTransferPage> {
                 height: getH(context, 50),
               ),
               CustomFilledButton(
-                title: 'Continue',
+                title: 'Checkout Now',
                 onTaps: () {
                   int totalAmount = int.parse(numTec.text.replaceAll('.', ''));
                   if (totalAmount >= 10000) {
                     showDialog(
                         context: context,
-                        builder: (context) => TransferDialog(
-                              data: widget.data.copyWith(
-                                amount: totalAmount.toString(),
-                                pin: user!.pin,
-                              ),
-                              user: user!,
-                            ));
+                        builder: (context) => TopUpDialog(
+                                data: widget.data.copyWith(
+                              amount: totalAmount.toString(),
+                            )));
                   } else {
                     showCustomSnackbar(context, 'Minimum top up is IDR 10.0000');
                   }
@@ -221,15 +210,14 @@ class _AmountTransferPageState extends State<AmountTransferPage> {
   }
 }
 
-class TransferDialog extends StatelessWidget {
-  final TransferModel data;
-  final UserModel user;
-  const TransferDialog({super.key, required this.data, required this.user});
+class TopUpDialog extends StatelessWidget {
+  final TopUpModel data;
+  const TopUpDialog({super.key, required this.data});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => TransferBloc(),
+      create: (context) => TopupBloc(),
       child: CustomDialog(
         isDark: true,
         child: Column(
@@ -240,41 +228,35 @@ class TransferDialog extends StatelessWidget {
               width: 24,
               color: orangeColor,
             ),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Spacer(),
-                  Text(
-                    "Transfer to @${data.sendTo}",
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    style: whiteTextStyle.copyWith(fontSize: 16, fontWeight: medium),
-                  ),
-                  Text(
-                    "Total amount : ${formatCurrency(int.parse(data.amount!))}",
-                    style: whiteTextStyle.copyWith(fontSize: 16, fontWeight: medium),
-                  ),
-                  const Spacer()
-                ],
-              ),
+            const SizedBox(
+              height: 15,
             ),
-            BlocConsumer<TransferBloc, TransferState>(
+            Text(
+              "Top Up from ${data.paymentMethodCode?.replaceAll('_va', '').toUpperCase()}",
+              style: whiteTextStyle.copyWith(fontSize: 16, fontWeight: medium),
+            ),
+            Text(
+              "Total amount : ${formatCurrency(int.parse(data.amount!))}",
+              style: whiteTextStyle.copyWith(fontSize: 16, fontWeight: medium),
+            ),
+            const Spacer(),
+            BlocConsumer<TopupBloc, TopupState>(
               listener: (context, state) {
-                if (state is TransferFailed) {
+                if (state is TopupFailed) {
                   showCustomSnackbar(context, state.e);
                 }
-                if (state is TransferSuccess) {
+                if (state is TopupSuccess) {
                   Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => TransferSuccessPage(user: user),
-                    ),
-                  );
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => TopupWebviewPage(
+                                title: data.paymentMethodCode!,
+                                redirectUrl: state.redirectUrl,
+                              )));
                 }
               },
               builder: (context, state) {
-                if (state is TransferLoading) {
+                if (state is TopupLoading) {
                   return Center(
                     child: CircularProgressIndicator(
                       color: orangeColor,
@@ -282,10 +264,10 @@ class TransferDialog extends StatelessWidget {
                   );
                 }
                 return CustomFilledButton(
-                  title: 'Transfer',
+                  title: 'Check Out',
                   onTaps: () async {
                     if (await Navigator.pushNamed(context, '/pin') == true) {
-                      context.read<TransferBloc>().add(TransferPost(data));
+                      context.read<TopupBloc>().add(TopUpPost(data));
                     }
                   },
                 );

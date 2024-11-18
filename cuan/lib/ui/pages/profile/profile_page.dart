@@ -1,5 +1,5 @@
 import 'package:cuan/blocs/auth/auth_bloc.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/helper.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:cuan/ui/pages/profile/profile_edit_page.dart';

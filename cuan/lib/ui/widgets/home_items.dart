@@ -61,9 +61,11 @@ class HomeLatestTransactionItem extends StatelessWidget {
                 shape: BoxShape.circle,
                 // image: DecorationImage(image: NetworkImage(data.transactionType!.thumbnail!) as ImageProvider)),
                 image: DecorationImage(
-                    image: AssetImage(data.transactionType!.name! == 'Transfer'
+                    image: AssetImage((data.transactionType!.name! == 'Transfer')
                         ? 'assets/ic_transaction_cat3.png'
-                        : 'assets/ic_transaction_cat1.png'))),
+                        : (data.transactionType!.name! == 'Top Up')
+                            ? 'assets/ic_transaction_cat1.png'
+                            : 'assets/ic_transaction_cat5.png'))),
           ),
           const SizedBox(
             width: 16,
@@ -81,7 +83,7 @@ class HomeLatestTransactionItem extends StatelessWidget {
                   height: 2,
                 ),
                 Text(
-                  formatDate(date:DateTime.parse(data.createdAt!)),
+                  formatDate(date: DateTime.parse(data.createdAt!)),
                   style: greyTextStyle.copyWith(fontSize: 12),
                 ),
               ],
@@ -122,7 +124,9 @@ class HomeUsersItem extends StatelessWidget {
               decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   image: DecorationImage(
-                    image: imgUrl == null ? const AssetImage('assets/img_profile.png') : NetworkImage(imgUrl!) as ImageProvider,
+                    image: imgUrl == null
+                        ? const AssetImage('assets/img_profile.png')
+                        : NetworkImage(imgUrl!) as ImageProvider,
                     fit: BoxFit.cover,
                   )),
             ),
@@ -174,4 +178,3 @@ class HomeTipsItem extends StatelessWidget {
     );
   }
 }
-

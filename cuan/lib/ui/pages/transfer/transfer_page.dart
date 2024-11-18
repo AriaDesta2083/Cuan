@@ -2,9 +2,9 @@ import 'package:cuan/blocs/user/user_bloc.dart';
 import 'package:cuan/models/transfer_model.dart';
 import 'package:cuan/models/user_model.dart';
 import 'package:cuan/service/custom_width_height.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/theme.dart';
-import 'package:cuan/ui/pages/amount/amount_transfer_page.dart';
+import 'package:cuan/ui/pages/transfer/transfer_amount_page.dart';
 import 'package:cuan/ui/widgets/buttons.dart';
 import 'package:cuan/ui/widgets/text_fields.dart';
 import 'package:cuan/ui/widgets/transfer_items.dart';
@@ -132,7 +132,7 @@ class _TransferPageState extends State<TransferPage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => AmountTransferPage(
+                              builder: (context) => TransferAmountPage(
                                 data: TransferModel(
                                   sendTo: selectUser!.username,
                                 ),

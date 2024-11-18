@@ -1,5 +1,5 @@
 import 'package:cuan/service/custom_width_height.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:cuan/ui/widgets/buttons.dart';
 import 'package:flutter/material.dart';

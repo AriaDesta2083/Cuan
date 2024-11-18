@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cuan/models/data_plan_model.dart';
 import 'package:cuan/models/topup_model.dart';
 import 'package:cuan/models/transaction_model.dart';
 import 'package:cuan/models/transfer_model.dart';
@@ -40,6 +41,25 @@ class TransactionServices {
       rethrow;
     }
   }
+
+  
+  Future<void> buyData(DataFormModel data) async {
+    try {
+      final token = await AuthServices().getToken();
+      final res = await http.post(Uri.parse('$baseUrl/data_plans'),
+          headers: {
+            'Authorization': 'Bearer $token',
+          },
+          body: data.toJson());
+      if (res.statusCode != 200) {
+        return jsonDecode(res.body)['message'];
+      }
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+
 
   Future<List<TransactionModel>> getTransaction(int? limit) async {
     try {

@@ -1,17 +1,18 @@
 import 'package:cuan/blocs/auth/auth_bloc.dart';
 import 'package:cuan/models/user_model.dart';
-import 'package:cuan/shared/animation.dart';
+import 'package:cuan/ui/animations/animation.dart';
 import 'package:cuan/shared/helper.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:cuan/ui/widgets/buttons.dart';
 import 'package:cuan/ui/widgets/dialog.dart';
 import 'package:cuan/ui/widgets/text_fields.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileEditPinPage extends StatefulWidget {
   final UserModel user;
-  const ProfileEditPinPage({super.key,required this.user});
+  const ProfileEditPinPage({super.key, required this.user});
 
   @override
   State<ProfileEditPinPage> createState() => _ProfileEditPinPageState();
@@ -30,6 +31,7 @@ class _ProfileEditPinPageState extends State<ProfileEditPinPage> {
     }
     return true;
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,6 +54,9 @@ class _ProfileEditPinPageState extends State<ProfileEditPinPage> {
                     title: 'Old PIN',
                     pass: true,
                     isPin: true,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(6),
+                    ],
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(
@@ -62,6 +67,9 @@ class _ProfileEditPinPageState extends State<ProfileEditPinPage> {
                     title: 'New PIN',
                     pass: true,
                     isPin: true,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(6),
+                    ],
                     keyboardType: TextInputType.number,
                   ),
                   const SizedBox(
@@ -77,8 +85,8 @@ class _ProfileEditPinPageState extends State<ProfileEditPinPage> {
                               builder: (context) => PinDialog(
                                     user: widget.user,
                                     newPin: newCtrl.text,
-                                  ));                        
-                        }else{
+                                  ));
+                        } else {
                           showCustomSnackbar(context, "Old PIN Uncorrect");
                         }
                       } else {

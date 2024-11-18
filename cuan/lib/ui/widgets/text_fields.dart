@@ -9,10 +9,11 @@ class CustomTextField extends StatelessWidget {
   final bool isPin;
   final bool outTitle;
   final TextEditingController? ctrl;
+  final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
   final Function(String)? onFieldSubmitted;
 
-  const CustomTextField({super.key, required this.title, this.pass = false, this.outTitle = true, this.ctrl,this.keyboardType,this.isPin = false,this.onFieldSubmitted});
+  const CustomTextField({super.key, required this.title, this.pass = false, this.outTitle = true, this.ctrl,this.keyboardType,this.isPin = false,this.onFieldSubmitted,this.inputFormatters});
 
   @override
   Widget build(BuildContext context) {
@@ -32,9 +33,7 @@ class CustomTextField extends StatelessWidget {
           controller: ctrl,
           keyboardType: keyboardType,
           onFieldSubmitted: onFieldSubmitted ,
-          inputFormatters: isPin?  [
-                LengthLimitingTextInputFormatter(6),
-              ]: null ,
+          inputFormatters: inputFormatters,
           decoration: InputDecoration(
               hintText: !outTitle ? title :null,
               hintStyle: greyTextStyle,

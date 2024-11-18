@@ -3,23 +3,22 @@ import 'dart:async';
 import 'package:cuan/blocs/auth/auth_bloc.dart';
 import 'package:cuan/shared/helper.dart';
 import 'package:cuan/shared/theme.dart';
-import 'package:cuan/ui/pages/topup/topup_success_page.dart';
 import 'package:cuan/ui/widgets/buttons.dart';
 import 'package:cuan/ui/widgets/dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
-class WebViewTopUpPage extends StatefulWidget {
+class TopupWebviewPage extends StatefulWidget {
   final String title;
   final String redirectUrl;
-  const WebViewTopUpPage({super.key, required this.title, required this.redirectUrl});
+  const TopupWebviewPage({super.key, required this.title, required this.redirectUrl});
 
   @override
-  State<WebViewTopUpPage> createState() => _WebViewTopUpPageState();
+  State<TopupWebviewPage> createState() => _TopupWebviewPageState();
 }
 
-class _WebViewTopUpPageState extends State<WebViewTopUpPage> {
+class _TopupWebviewPageState extends State<TopupWebviewPage> {
   late final WebViewController wvController;
   bool isLoading = true;
   bool isPayment = false;
@@ -54,10 +53,10 @@ class _WebViewTopUpPageState extends State<WebViewTopUpPage> {
               ''');
 
               Timer(const Duration(seconds: 2), () {
-                  setState(() {
+                setState(() {
                   isLoading = false;
                 });
-                });
+              });
 
               if (url.contains('success') && mounted) {
                 setState(() {
@@ -69,13 +68,7 @@ class _WebViewTopUpPageState extends State<WebViewTopUpPage> {
               if (request.url.contains('.ngrok.io')) {
                 if (isPayment) {
                   showCustomSnackbar(context, 'Pembayaran Berhasil');
-                  Navigator.pushAndRemoveUntil(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => TopupSuccessPage(
-                                user: authState.data,
-                              )),
-                      (context) => false);
+                  Navigator.pushNamedAndRemoveUntil(context, '/topup-success', (context) => false);
                   return NavigationDecision.prevent;
                 } else {
                   showCustomSnackbar(context, 'Pembayaran Dibatalkan');
@@ -134,6 +127,10 @@ class _WebViewTopUpPageState extends State<WebViewTopUpPage> {
                 controller: wvController,
               ));
   }
+  @override
+  void dispose() {
+    super.dispose();
+  }
 }
 
 class WebViewTopUpDialog extends StatelessWidget {
@@ -169,4 +166,5 @@ class WebViewTopUpDialog extends StatelessWidget {
           ],
         ));
   }
+
 }

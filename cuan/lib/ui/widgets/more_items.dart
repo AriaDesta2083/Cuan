@@ -1,25 +1,25 @@
+import 'package:cuan/models/data_plan_model.dart';
 import 'package:cuan/service/custom_width_height.dart';
 import 'package:cuan/shared/helper.dart';
 import 'package:cuan/shared/theme.dart';
 import 'package:flutter/material.dart';
 
 class DataProviderItem extends StatelessWidget {
+  final DataProviderModel data;
   final bool isSelected;
-  final String imgUrl;
-  final String name;
-  final String status;
-  const DataProviderItem({super.key, this.isSelected = false, required this.imgUrl, required this.name, required this.status});
+  const DataProviderItem({super.key,required this.data,this.isSelected = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(22),
+      padding: EdgeInsets.all(isSelected? 23:20),
       margin: const EdgeInsets.only(
         bottom: 18,
       ),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(20),
         color: whiteColor,
+        boxShadow: lightShadow,
         border: isSelected
             ? Border.all(
                 width: 2,
@@ -30,15 +30,17 @@ class DataProviderItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Image.asset(
-            imgUrl,
-            height: 30,
+          Image.network(
+            data.thumbnail!,
+            filterQuality: FilterQuality.high,
+            height: isSelected?45:30,
+            fit: BoxFit.cover,
           ),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Text(
-                name,
+                data.name??'',
                 style: blackTextStyle.copyWith(
                   fontSize: 16,
                   fontWeight: medium,
@@ -48,7 +50,7 @@ class DataProviderItem extends StatelessWidget {
                 height: 2,
               ),
               Text(
-                status,
+                data.status??'',
                 style: greyTextStyle.copyWith(
                   fontSize: 12,
                 ),
@@ -61,22 +63,22 @@ class DataProviderItem extends StatelessWidget {
   }
 }
 
-class PackageItem extends StatelessWidget {
-  final String name;
-  final num price;
+class DataPlanItem extends StatelessWidget {
+  final DataPlanModel data;
   final bool isSelect;
-  const PackageItem({super.key, required this.name, required this.price, this.isSelect = false});
+  const DataPlanItem({super.key, required this.data, this.isSelect = false});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: getW(context,155),
-      height: getH(context, 175),
-      padding: const EdgeInsets.symmetric(
-        horizontal: 14,
-        vertical: 22,
+      width: getW(context,150),
+      height: getH(context, 170),
+      padding: EdgeInsets.symmetric(
+        horizontal: isSelect?14:12,
+        vertical: isSelect? 22:20,
       ),
       decoration: BoxDecoration(
+        boxShadow: isSelect? lightShadow:null,
         color: whiteColor,
         borderRadius: BorderRadius.circular(20),
         border: Border.all(
@@ -88,9 +90,9 @@ class PackageItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Text(
-            name,
+            data.name??'',
             style: blackTextStyle.copyWith(
-              fontSize: 32,
+              fontSize: isSelect? 34:32,
               fontWeight: medium,
             ),
           ),
@@ -98,9 +100,9 @@ class PackageItem extends StatelessWidget {
             height: 2,
           ),
           Text(
-            formatCurrency(price),
+            formatCurrency(data.price??0),
             style: greyTextStyle.copyWith(
-              fontSize: 12,
+              fontSize: isSelect?14:12,
             ),
           ),
         ],
